@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import loginImage from '../assets/login-image.jpg';
-import { useAuth } from '../contexts/AuthContext';
+import loginImage from '../../assets/login-image.jpg'; // Đường dẫn đến hình ảnh
+import { useAuth } from '../../contexts/AuthContext';
 
 export default function Login() {
 	const [email, setEmail] = useState('');
