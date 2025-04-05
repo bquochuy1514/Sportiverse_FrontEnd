@@ -9,6 +9,7 @@ import {
 	FaBiking,
 	FaFutbol,
 	FaBasketballBall,
+	FaFireAlt,
 } from 'react-icons/fa';
 import { CgGym } from 'react-icons/cg';
 
@@ -36,72 +37,77 @@ const Navigation = ({ sports }) => {
 	};
 
 	// Hàm để gán icon dựa trên tên môn thể thao
-	// Trong component của bạn
 	function getSportIcon(sportName) {
 		switch (sportName.toLowerCase()) {
 			case 'bóng đá':
-				return <FaFutbol className="text-xl mr-2" />;
+				return <FaFutbol className="text-lg mr-2" />;
 			case 'bóng rổ':
-				return <FaBasketballBall className="text-xl mr-2" />;
+				return <FaBasketballBall className="text-lg mr-2" />;
 			case 'cầu lông':
-				return <GiShuttlecock className="text-xl mr-2" />; // Icon cầu lông
+				return <GiShuttlecock className="text-lg mr-2" />;
 			case 'bơi lội':
-				return <FaSwimmer className="text-xl mr-2" />;
+				return <FaSwimmer className="text-lg mr-2" />;
 			case 'chạy bộ':
-				return <FaRunning className="text-xl mr-2" />;
+				return <FaRunning className="text-lg mr-2" />;
 			case 'đạp xe':
-				return <FaBiking className="text-xl mr-2" />;
+				return <FaBiking className="text-lg mr-2" />;
 			case 'tennis':
-				return <GiTennisRacket className="text-xl mr-2" />;
+				return <GiTennisRacket className="text-lg mr-2" />;
 			case 'gym':
-				return <CgGym className="text-xl mr-2" />;
+				return <CgGym className="text-lg mr-2" />;
+			default:
+				return <CgGym className="text-lg mr-2" />;
 		}
 	}
 
 	return (
-		<nav className="bg-gradient-to-r from-blue-50 to-blue-100 shadow-sm">
-			<div className="container mx-auto px-4 relative">
-				<ul className="flex items-center justify-start space-x-1 md:space-x-2 overflow-x-auto py-1 scrollbar-hide">
-					{sports.map((sport) => (
-						<li key={sport.id} className="relative">
-							<button
-								onClick={(e) =>
-									handleToggleCategories(sport.id, e)
-								}
-								className={`sport-item flex items-center px-3 py-2.5 rounded-md transition-all duration-200 ${
-									activeSport === sport.id
-										? 'bg-blue-600 text-white font-medium shadow-md'
-										: 'text-gray-700 hover:bg-blue-500 hover:text-white'
-								}`}
-							>
-								{getSportIcon(sport.name)}
-								<span className="whitespace-nowrap">
-									{sport.name}
-								</span>
-								<i
-									className={`fas fa-chevron-down ml-2 text-xs transform transition-transform duration-200 ${
+		<nav className="w-full bg-gradient-to-r from-blue-50 to-blue-100 py-1">
+			<div className="w-full max-w-7xl mx-auto px-4">
+				<div className="w-full overflow-x-auto scrollbar-hide">
+					<ul className="flex items-center justify-start space-x-2 py-1 min-w-max">
+						{sports.map((sport) => (
+							<li key={sport.id} className="relative">
+								<button
+									onClick={(e) =>
+										handleToggleCategories(sport.id, e)
+									}
+									className={`sport-item flex items-center px-3.5 py-2 rounded-md transition-all duration-200 ${
 										activeSport === sport.id
-											? 'rotate-180'
-											: ''
+											? 'bg-blue-600 text-white font-medium shadow-md'
+											: 'text-gray-700 hover:bg-blue-500 hover:text-white'
 									}`}
-								></i>
-							</button>
+								>
+									{getSportIcon(sport.name)}
+									<span className="whitespace-nowrap font-medium">
+										{sport.name}
+									</span>
+									<i
+										className={`fas fa-chevron-down ml-2 text-xs transform transition-transform duration-200 ${
+											activeSport === sport.id
+												? 'rotate-180'
+												: ''
+										}`}
+									></i>
+								</button>
+							</li>
+						))}
+						<li>
+							<NavLink
+								to="/products/sale"
+								className={({ isActive }) =>
+									isActive
+										? 'flex items-center px-3.5 py-2 bg-red-600 text-white rounded-md font-medium shadow-md'
+										: 'flex items-center px-3.5 py-2 text-red-600 hover:bg-red-600 hover:text-white rounded-md transition-all duration-200 font-medium'
+								}
+							>
+								<FaFireAlt className="mr-2" />
+								<span className="whitespace-nowrap">
+									HOT SALE
+								</span>
+							</NavLink>
 						</li>
-					))}
-					<li>
-						<NavLink
-							to="/products/sale"
-							className={({ isActive }) =>
-								isActive
-									? 'flex items-center px-3 py-2.5 bg-red-600 text-white rounded-md font-medium shadow-md'
-									: 'flex items-center px-3 py-2.5 text-red-600 hover:bg-red-600 hover:text-white rounded-md transition-all duration-200'
-							}
-						>
-							<i className="fas fa-fire-alt mr-2"></i>
-							<span className="whitespace-nowrap">HOT SALE</span>
-						</NavLink>
-					</li>
-				</ul>
+					</ul>
+				</div>
 
 				<SportDropdown
 					activeSport={activeSport}

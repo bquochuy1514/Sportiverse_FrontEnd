@@ -26,8 +26,10 @@ export default function Layout() {
 			<Header sports={sports} />
 
 			{/* Main content */}
-			<main className="flex-grow container mx-auto px-4 py-4">
-				<Outlet />
+			<main className="flex-grow w-full">
+				<div className="max-w-7xl mx-auto px-4 py-4">
+					<Outlet />
+				</div>
 			</main>
 
 			{/* Footer */}
