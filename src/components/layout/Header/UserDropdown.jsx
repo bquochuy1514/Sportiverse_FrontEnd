@@ -38,26 +38,26 @@ const UserDropdown = ({ showDropdown, setShowDropdown }) => {
 			{showDropdown && (
 				<motion.div
 					ref={dropdownRef}
-					initial={{ opacity: 0, y: -10 }}
+					initial={{ opacity: 0, y: -20 }}
 					animate={{ opacity: 1, y: 0 }}
-					exit={{ opacity: 0, y: -10 }}
-					transition={{ duration: 0.2 }}
+					exit={{ opacity: 0, y: -20 }}
+					transition={{ duration: 0.3 }}
 					className="absolute right-0 top-12 w-72 bg-white rounded-lg shadow-xl border border-gray-200 z-20 overflow-hidden"
 				>
 					{/* Phần header với thông tin người dùng */}
 					<div className="bg-gradient-to-r from-blue-500 to-blue-600 p-4 text-white">
 						<div className="flex items-center space-x-3">
 							<img
-								src={user?.avatar || 'default-avatar.png'}
+								src={user.avatar || 'default-avatar.png'}
 								alt="User Avatar"
 								className="w-12 h-12 rounded-full border-2 border-white shadow-md"
 							/>
 							<div className="overflow-hidden">
 								<p className="font-semibold text-lg truncate">
-									{user?.name}
+									{user.name}
 								</p>
 								<p className="text-sm text-blue-100 truncate">
-									{user?.email}
+									{user.email}
 								</p>
 							</div>
 						</div>
@@ -94,7 +94,7 @@ const UserDropdown = ({ showDropdown, setShowDropdown }) => {
 					</div>
 
 					{/* Phần footer với nút đăng xuất */}
-					<div className="border-t border-gray-200 mt-2">
+					<div className="border-t border-gray-200">
 						<button
 							onClick={handleLogout}
 							className="flex items-center w-full px-4 py-3 text-red-600 hover:bg-red-50 transition-colors duration-200"

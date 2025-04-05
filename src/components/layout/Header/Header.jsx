@@ -1,7 +1,7 @@
 import { useState, useRef } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useAuth } from '../../../contexts/AuthContext';
-import Logo from './Logo';
+import Logo from '../../common/Logo';
 import SearchBar from '../../common/SearchBar';
 import Navigation from './Navigation';
 import UserDropdown from './UserDropdown';

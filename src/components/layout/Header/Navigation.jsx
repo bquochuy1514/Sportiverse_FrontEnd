@@ -2,6 +2,15 @@ import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { fetchCategories } from '../../../services/api';
 import SportDropdown from './SportDropdown';
+import { GiShuttlecock, GiTennisRacket } from 'react-icons/gi';
+import {
+	FaRunning,
+	FaSwimmer,
+	FaBiking,
+	FaFutbol,
+	FaBasketballBall,
+} from 'react-icons/fa';
+import { CgGym } from 'react-icons/cg';
 
 const Navigation = ({ sports }) => {
 	const [activeSport, setActiveSport] = useState(null);
@@ -27,59 +36,56 @@ const Navigation = ({ sports }) => {
 	};
 
 	// Hàm để gán icon dựa trên tên môn thể thao
-	const getSportIcon = (sportName) => {
+	// Trong component của bạn
+	function getSportIcon(sportName) {
 		switch (sportName.toLowerCase()) {
 			case 'bóng đá':
-				return 'fas fa-futbol';
+				return <FaFutbol className="text-xl mr-2" />;
 			case 'bóng rổ':
-				return 'fas fa-basketball-ball';
+				return <FaBasketballBall className="text-xl mr-2" />;
 			case 'cầu lông':
-				return 'fas fa-shuttlecock';
+				return <GiShuttlecock className="text-xl mr-2" />; // Icon cầu lông
 			case 'bơi lội':
-				return 'fas fa-swimmer';
+				return <FaSwimmer className="text-xl mr-2" />;
 			case 'chạy bộ':
-				return 'fas fa-running';
+				return <FaRunning className="text-xl mr-2" />;
 			case 'đạp xe':
-				return 'fas fa-bicycle';
+				return <FaBiking className="text-xl mr-2" />;
 			case 'tennis':
-				return 'fas fa-tennis-ball';
-			default:
-				return 'fas fa-dumbbell';
+				return <GiTennisRacket className="text-xl mr-2" />;
+			case 'gym':
+				return <CgGym className="text-xl mr-2" />;
 		}
-	};
+	}
 
 	return (
-		<nav className="bg-gray-100 py-2">
+		<nav className="bg-gradient-to-r from-blue-50 to-blue-100 shadow-sm">
 			<div className="container mx-auto px-4 relative">
-				<ul className="flex space-x-6">
+				<ul className="flex items-center justify-start space-x-1 md:space-x-2 overflow-x-auto py-1 scrollbar-hide">
 					{sports.map((sport) => (
 						<li key={sport.id} className="relative">
-							<div className="flex items-center">
-								<span
-									onClick={(e) =>
-										handleToggleCategories(sport.id, e)
-									}
-									className={`sport-item flex items-center cursor-pointer ${
-										activeSport === sport.id
-											? 'text-blue-600 font-semibold'
-											: 'text-gray-800 hover:text-blue-600'
-									}`}
-								>
-									<i
-										className={`${getSportIcon(
-											sport.name
-										)} mr-2`}
-									></i>
-									<span>{sport.name}</span>
-									<i
-										className={`fas fa-chevron-down ml-2 transform transition-transform duration-200 ${
-											activeSport === sport.id
-												? 'rotate-180'
-												: ''
-										}`}
-									></i>
+							<button
+								onClick={(e) =>
+									handleToggleCategories(sport.id, e)
+								}
+								className={`sport-item flex items-center px-3 py-2.5 rounded-md transition-all duration-200 ${
+									activeSport === sport.id
+										? 'bg-blue-600 text-white font-medium shadow-md'
+										: 'text-gray-700 hover:bg-blue-500 hover:text-white'
+								}`}
+							>
+								{getSportIcon(sport.name)}
+								<span className="whitespace-nowrap">
+									{sport.name}
 								</span>
-							</div>
+								<i
+									className={`fas fa-chevron-down ml-2 text-xs transform transition-transform duration-200 ${
+										activeSport === sport.id
+											? 'rotate-180'
+											: ''
+									}`}
+								></i>
+							</button>
 						</li>
 					))}
 					<li>
@@ -87,11 +93,12 @@ const Navigation = ({ sports }) => {
 							to="/products/sale"
 							className={({ isActive }) =>
 								isActive
-									? 'text-red-600 font-semibold'
-									: 'text-red-600 hover:text-red-700'
+									? 'flex items-center px-3 py-2.5 bg-red-600 text-white rounded-md font-medium shadow-md'
+									: 'flex items-center px-3 py-2.5 text-red-600 hover:bg-red-600 hover:text-white rounded-md transition-all duration-200'
 							}
 						>
-							HOT SALE
+							<i className="fas fa-fire-alt mr-2"></i>
+							<span className="whitespace-nowrap">HOT SALE</span>
 						</NavLink>
 					</li>
 				</ul>
