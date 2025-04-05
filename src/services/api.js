@@ -12,7 +12,8 @@ export const fetchCategories = async (sportId) => {
 		`${API_BASE_URL}/categories?sport_id=${sportId}`
 	);
 	if (!response.ok) throw new Error('Failed to fetch categories');
-	return response.json();
+	const result = await response.json();
+	return result.categories.data; // Lấy mảng categories từ data.categories
 };
 
 export const fetchProducts = async (categoryId) => {

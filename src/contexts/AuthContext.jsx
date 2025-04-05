@@ -7,17 +7,32 @@ export function AuthProvider({ children }) {
 	const [user, setUser] = useState(null);
 
 	async function getUser() {
-		const res = await fetch('/api/profile', {
-			headers: {
-				Authorization: `Bearer ${token}`,
-			},
-		});
+		if (!token) {
+			setUser(null);
+			return;
+		}
 
-		const data = await res.json();
-		if (res.ok) {
-			setUser(data);
-		} else {
-			console.error('Error fetching user:', data.message);
+		try {
+			const res = await fetch('/api/profile', {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			});
+
+			const data = await res.json();
+			if (res.ok) {
+				setUser(data); // Lưu thông tin user (bao gồm avatar) vào state
+			} else {
+				console.error('Error fetching user:', data.message);
+				setToken(null);
+				localStorage.removeItem('token');
+				setUser(null); // Reset user nếu lỗi
+			}
+		} catch (error) {
+			console.error('Network error:', error);
+			setToken(null);
+			localStorage.removeItem('token');
+			setUser(null);
 		}
 	}
 

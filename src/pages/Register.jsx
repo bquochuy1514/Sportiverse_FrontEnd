@@ -1,34 +1,39 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import loginImage from '../assets/login-image.jpg';
-import { useAuth } from '../contexts/AuthContext';
+import registerImage from '../assets/register-image.jpg';
 
-export default function Login() {
+export default function Register() {
+	const [username, setUsername] = useState('');
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
+	const [confirmPassword, setConfirmPassword] = useState('');
 	const navigate = useNavigate();
-	const { setToken, setUser } = useAuth();
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
+		if (password !== confirmPassword) {
+			alert('Mật khẩu và xác nhận mật khẩu không khớp!');
+			return;
+		}
 		try {
-			const response = await fetch('/api/login', {
+			const response = await fetch('/api/register', {
 				method: 'POST',
-				body: JSON.stringify({ email, password }),
+				body: JSON.stringify({
+					name: username,
+					email,
+					password,
+					password_confirmation: confirmPassword,
+				}),
 			});
 			const data = await response.json();
-			console.log('dataCC', data);
 			if (response.ok) {
-				setToken(data.token); // Lưu token vào AuthContext
-				localStorage.setItem('token', data.token); // Lưu token vào localStorage
-				setUser(data.user);
-				console.log('user', data.user);
-				navigate('/');
+				alert('Đăng ký thành công! Vui lòng đăng nhập.');
+				navigate('/login');
 			} else {
 				alert(data.message);
 			}
 		} catch (error) {
-			console.error('Error logging in:', error);
+			console.error('Error registering:', error);
 			alert('Đã có lỗi xảy ra, vui lòng thử lại!');
 		}
 	};
@@ -39,23 +44,34 @@ export default function Login() {
 				{/* Bên trái: Hình ảnh */}
 				<div className="hidden md:block w-1/2">
 					<img
-						src={loginImage}
-						alt="Login Background"
+						src={registerImage}
+						alt="Register Background"
 						className="w-full h-full object-cover"
 					/>
 				</div>
 
-				{/* Bên phải: Form đăng nhập */}
+				{/* Bên phải: Form đăng ký */}
 				<div className="w-full md:w-1/2 p-8">
-					<h2 className="text-2xl font-bold mb-4">
-						Đăng nhập tài khoản
-					</h2>
+					<h2 className="text-2xl font-bold mb-4">Tạo tài khoản</h2>
 
-					{/* Form đăng nhập */}
+					{/* Form đăng ký */}
 					<form onSubmit={handleSubmit}>
 						<div className="mb-4">
 							<label className="block text-gray-700 font-semibold mb-2">
-								Nhập địa chỉ Email
+								Tên người dùng
+							</label>
+							<input
+								type="text"
+								value={username}
+								onChange={(e) => setUsername(e.target.value)}
+								placeholder="Tên người dùng"
+								className="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+								required
+							/>
+						</div>
+						<div className="mb-4">
+							<label className="block text-gray-700 font-semibold mb-2">
+								Nhập địa chỉ email
 							</label>
 							<input
 								type="email"
@@ -66,7 +82,7 @@ export default function Login() {
 								required
 							/>
 						</div>
-						<div className="mb-6">
+						<div className="mb-4">
 							<label className="block text-gray-700 font-semibold mb-2">
 								Mật khẩu
 							</label>
@@ -79,11 +95,26 @@ export default function Login() {
 								required
 							/>
 						</div>
+						<div className="mb-6">
+							<label className="block text-gray-700 font-semibold mb-2">
+								Xác nhận mật khẩu
+							</label>
+							<input
+								type="password"
+								value={confirmPassword}
+								onChange={(e) =>
+									setConfirmPassword(e.target.value)
+								}
+								placeholder="Xác nhận mật khẩu"
+								className="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+								required
+							/>
+						</div>
 						<button
 							type="submit"
 							className="w-full py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
 						>
-							Đăng nhập
+							Tiếp
 						</button>
 					</form>
 
@@ -108,12 +139,12 @@ export default function Login() {
 					{/* Thông tin bổ sung */}
 					<div className="mt-6">
 						<p className="text-center text-gray-600 font-semibold">
-							Bạn chưa có tài khoản?{' '}
+							Bạn đã có tài khoản?{' '}
 							<Link
-								to="/register"
+								to="/login"
 								className="text-blue-600 hover:underline"
 							>
-								Đăng ký
+								Đăng nhập
 							</Link>
 						</p>
 						<p className="text-center text-gray-600 font-semibold mt-2">
